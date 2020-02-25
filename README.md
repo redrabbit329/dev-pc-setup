@@ -2,15 +2,20 @@
 Redrabbit's Development Environment Configuration
 
 Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
+=================================================================
 
 1. Install Ubuntu 18.04 LTS using booting usb
-    BIOS    UEFI Disable (or Fast Boot Option Disable)
-            Legacy Boot First/ To Recognize USB Boot
-            Installation : Partition /, /boot(primary/ex4,512MB), /home(logical), /opt(logical), swap(primary, 2~8GB) 
+----------------------------------------------------
+
+# BIOS
+UEFI Disable (or Fast Boot Option Disable)
+Legacy Boot First/ To Recognize USB Boot
+Installation : Partition /, /boot(primary/ex4,512MB), /home(logical), /opt(logical), swap(primary, 2~8GB) 
             
             >> Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push 'Exc' key & try recovery option
           
 2. Install Packages 
+----------------------------------------------------
     Software Updater - automatically proceed with GUI.
     Build-Essential
             sudo apt-get update
@@ -27,6 +32,7 @@ Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
             
     
 3. FPGA Tools Installation
+----------------------------------------------------
     Vitis 2019.2 (include Vivado 2019.2)
     
     Ultra96 개발환경 갖추기  - Vitis 2019.2 (with Vivado 2019.2) Install to make hardware platform design (*.xsa)
