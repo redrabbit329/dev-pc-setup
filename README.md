@@ -108,7 +108,9 @@ Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push '
             
             설치 후, TFTP를 사용하기 위해서 /etc/xinetd.d/tftp 파일을 만들고, 아래 내용을 붙여넣기 후 저장
             
-service tftp
+            >> $ sudo vim /etc/xinetd.d/tftp
+            
+>> service tftp
 {
     socket_type     = dgram
     protocol        = udp
@@ -121,6 +123,15 @@ service tftp
     cps             = 100 2
     flags           = IPv4
 }
+
+            tftp용 디렉토리 생성
+            
+            >> $ sudo mkdir /tftboot
+            >> $ sudo chmod 777 /tftboot
+            
+            그리고 나서 tftp 서버를 시작해 준 다음. 설정파일을 등록
+            
+            >> $ sudo /etc/init.d/xinetd restart
             
             TFTP (Trivial File Transfer Protocol) : 
                         FTP보다 더 단순한 방식으로 파일 전송하는 프로토콜. 구현간단. 데이터 손실위험.
