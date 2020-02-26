@@ -159,6 +159,11 @@ Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
             2. Docker를 설치하고 group docker user에 linux user (=나)를 추가한다.
                Ubuntu용 Docker Install Guide : https://docs.docker.com/install/linux/docker-ce/ubuntu/
                
+               Ubuntu Host에서 Docker를 설치하는 명령은 다음 순서대로 진행한다. (정확히 아래 링크를 참고했음)
+               https://github.com/Xilinx/Vitis-AI/blob/master/doc/install_docker/README.md
+               
+               >>
+               
                      
             3. Docker image를 내려받는다.
             4. XRT 2019.2를 install한다.
