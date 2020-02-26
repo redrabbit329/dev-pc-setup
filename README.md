@@ -60,9 +60,25 @@ Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push '
  ## 1. Prerequisites : 
   ### Ubuntu bash shell 확인 :
             Ubuntu의 경우 기본 쉘이 dash이므로, PetaLinux및 Xilinx command환경을 위해 bash shell로 변경해준다.
-            >> sudo dpkg-reconfigure dash
-            >> ls -al /bin/sh
-  ### PetaLinux가 구동되기 위한 기본 Package를 설치한다. (OS Dependency) - UG1144 Ch2. Table2참고
+            >> $ sudo dpkg-reconfigure dash
+            >> $ ls -al /bin/sh
+  ###### PetaLinux가 구동되기 위한 기본 Package를 설치한다. (OS Dependency) - UG1144 Ch2. Table2참고
+            For Ubunt Linux 16.04.5, 16.04.6, 18.04.1, 18.04.2 (64bit)
+            >> $ sudo apt-get install gawk python build-essential gcc git make net-tools libncurses5-dev tftpd zlib1g-dev libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib zlib1g:i386 screen pax gzip python 2.7.5	
+       
+
+  ###### PetaLinux 2019.2 Installation
+            설치 폴더는 만들어줘야 함 
+            >> ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2 
        
        
-       
+5. Vitis-AI 개발환경을 위해 준비할 것
+----------------------------------------------------
+### 5.0. Common
+            1. vitis-ai repository를 clone 한다.
+            2. Docker를 설치하고 group docker user에 linux user (=나)를 추가한다.
+            3. Docker image를 내려받는다.
+            4. XRT 2019.2를 install한다.
+            5. Target Device의 platform을 내려받거나 생성(customizing)한다.
+### 5.1. For MPSoC
+### 5.2. For Alveo
