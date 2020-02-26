@@ -63,22 +63,56 @@ Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push '
             >> $ sudo dpkg-reconfigure dash
             >> $ ls -al /bin/sh
   ###### PetaLinux가 구동되기 위한 기본 Package를 설치한다. (OS Dependency) - UG1144 Ch2. Table2참고
-            For Ubunt Linux 16.04.5, 16.04.6, 18.04.1, 18.04.2 (64bit)
-            >> $ sudo apt-get install gawk python build-essential gcc git make net-tools libncurses5-dev tftpd zlib1g-dev libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib zlib1g:i386 screen pax gzip python 2.7.5	
-       
-
+            For Ubunt Linux 16.04.5, 16.04.6, 18.04.1, 18.04.2 (64bit) 기준, 테이블에 나온 패키지들 설치
+            
+            >> $ sudo apt-get install gawk python build-essential gcc git make net-tools libncurses5-dev tftpd zlib1g-dev libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib zlib1g:i386 screen pax gzip python 2.7.5
+            
+            생각보다 한참 걸린다. 그리고 노트북이 몹시 힘들어 함
+            
+            
   ###### PetaLinux 2019.2 Installation
-            설치 폴더는 만들어줘야 함 
-            >> ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2 
+            PetaLinux는 YoctoProject Base이므로, User권한으로 설치 및 사용해야 한다.
+            즉, 설치 파일(installer)도 /home/user 디렉토리 이하에 존재해야 하고
+            설치될 root경로의 디렉토리도 권한을 다음과 같이 풀어 준다.
+            
+            >> $ sudo chgrp -R username install_directory
+            >> $ sudo chown -R username install_directory
+            >> $ sudo chmod -R 775 install_directory
+            
+            설치 폴더는 만들어줘야 함 ('install_directory' = /opt/pkg/petalinux/2019.2 일 경우)
+            >> $ ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2   (sudo쓰면 아니됨)
+            
+            설치 중 라이센스를 세 번 묻는다. 'q'눌러 빠져나오고 'y' 눌러 다음으로 넘어가자.
+            한참 걸림. 나의 노트북이여...
+            
+            설치가 종료되면, 
+            
+            >> $ source path_to_installed_PetaLinux/setting.sh
+            
+            를 터미널에 입력하여, 환경 변수를 적용하고
+            
+            >> $ echo $PETALINUX
+            
+            확인해 본다. 
+            설치 경로를 응답하면, 올바르게 설치되었음.
+            
+            윈도우랑 다르게, petalinux명령을 적용하기 위해서 매번 고민하기 싫으면 bashrc에 추가해 줘야 하고,
+            까먹지 않을 자신이 있다면 이 경로의 setting.sh 스크립트를 매번 소싱해줘야 함.
+  
+  ###### PetaLinux BSP Download
+            PetaLinux Tool은 config명령에서 사용할 bsp를 포함하고 있지 않으므로, 
+            사용할 Device에 맞는 Platform/ BSP/ 를 내려받아야 하며,
+            Customizing할 경우에는 Vivado에서 작업한 결과물을 가져와서 사용하면 된다.
+            2019.2버전부터 vivado가 *.xsa를 토해 냄. (그 전에는 bdf였다)
        
        
 5. Vitis-AI 개발환경을 위해 준비할 것
 ----------------------------------------------------
-### 5.0. Common
+#### 5.0. Common
             1. vitis-ai repository를 clone 한다.
             2. Docker를 설치하고 group docker user에 linux user (=나)를 추가한다.
             3. Docker image를 내려받는다.
             4. XRT 2019.2를 install한다.
             5. Target Device의 platform을 내려받거나 생성(customizing)한다.
-### 5.1. For MPSoC
-### 5.2. For Alveo
+#### 5.1. For MPSoC
+#### 5.2. For Alveo
