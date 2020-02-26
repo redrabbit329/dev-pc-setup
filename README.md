@@ -8,12 +8,14 @@ Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
 ----------------------------------------------------
 
 # BIOS
-UEFI Disable (or Fast Boot Option Disable)
+#### UEFI Disable (or Fast Boot Option Disable)
 Legacy Boot First/ To Recognize USB Boot
 Installation : Partition /, /boot(primary/ex4,512MB), /home(logical), /opt(logical), swap(primary, 2~8GB) 
             
-            >> Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push 'Exc' key & try recovery option
-          
+Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push 'Exc' key & try recovery option
+
+
+
 2. Install Packages 
 ----------------------------------------------------
     Software Updater - automatically proceed with GUI.
@@ -52,3 +54,15 @@ Installation : Partition /, /boot(primary/ex4,512MB), /home(logical), /opt(logic
                               (5) Docker Image Download : https://hub.docker.com/r/xilinx/vitis-ai/tags
                             
                             
+4. PetaLinux Tools Installation
+----------------------------------------------------
+# PetaLinux Tools : v2019.2.final installer download 
+ ## 1. Prerequisites : 
+  ### Ubuntu bash shell 확인 :
+            Ubuntu의 경우 기본 쉘이 dash이므로, PetaLinux및 Xilinx command환경을 위해 bash shell로 변경해준다.
+            >> sudo dpkg-reconfigure dash
+            >> ls -al /bin/sh
+  ### PetaLinux가 구동되기 위한 기본 Package를 설치한다. (OS Dependency) - UG1144 Ch2. Table2참고
+       
+       
+       
