@@ -98,6 +98,33 @@ Occured : ACPI Error, AHCP  ---> Need to BIOS Update, When boot up linux, push '
             
             윈도우랑 다르게, petalinux명령을 적용하기 위해서 매번 고민하기 싫으면 bashrc에 추가해 줘야 하고,
             까먹지 않을 자신이 있다면 이 경로의 setting.sh 스크립트를 매번 소싱해줘야 함.
+            
+            WARNING: No tftp server found - please refer to "PetaLinux SDK Installation Guide" for its impact and solution.
+            -Problem Description : TFTP service가 없으면 u-boot의 network/TFTP capabilities를 사용한 리눅스 이미지 다운이 불가하다고 함
+            
+            TFTP를 사용하기 위한 설치 들어감
+            
+            >> $ sudo apt-get install tftp tftpd xinetd
+            
+            설치 후, TFTP를 사용하기 위해서 /etc/xinetd.d/tftp 파일을 만들고, 아래 내용을 붙여넣기 후 저장
+            
+service tftp
+{
+    socket_type     = dgram
+    protocol        = udp
+    wait            = yes
+    user            = root
+    server          = /usr/sbin/in.tftpd
+    server_args     = -s /tftpboot
+    disable         = no
+    per_source      = 11
+    cps             = 100 2
+    flags           = IPv4
+}
+            
+            TFTP (Trivial File Transfer Protocol) : 
+                        FTP보다 더 단순한 방식으로 파일 전송하는 프로토콜. 구현간단. 데이터 손실위험.
+                        임베디드 시스템이나 운영체제 업로드에 주로 사용한다                             
   
   ###### PetaLinux BSP Download
             PetaLinux Tool은 config명령에서 사용할 bsp를 포함하고 있지 않으므로, 
