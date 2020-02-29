@@ -140,7 +140,49 @@ Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
             
             ###### TFTP (Trivial File Transfer Protocol) : 
                         FTP보다 더 단순한 방식으로 파일 전송하는 프로토콜. 구현간단. 데이터 손실위험.
-                        임베디드 시스템이나 운영체제 업로드에 주로 사용한다                             
+                        임베디드 시스템이나 운영체제 업로드에 주로 사용한다                       
+                        
+                        
+                        
+  ---> 이렇게 했다가 나오는 tftp server가 제대로 설치 안됬다는 오류를 가볍게 생각하고 무시했다가....다시 설치
+  tftp 사용을 위해선 tftp, tftpd 를 설치하면 됐지만 버전 10 이후부터 사용 불가.
+
+tftpd-hpa 를 사용하면 된다.
+
+ 
+
+# sudo apt-get install tftpd-hpa
+
+ 
+
+설치가 정상적으로 됐는지 확인을 위해 아래처럼 할 수 있다.
+
+ 
+
+# sudo service tftpd-hpa status
+
+# netstat -a | grep tftp
+
+ 
+
+설정방법은 아래와 같다.
+
+ 
+
+# mkdir /tftp
+# sudo cp /etc/default/tftpd-hpa /etc/default/tftpd-hpa.original
+# sudo vi /etc/default/tftpd-hpa
+   TFTP_DIRECTORY=”/tftp”
+   TFTP_OPTIONS=”–secure”
+   TFTP_ADDRESS=”:69″
+   
+   여기에 자동으로 생성되는 항목에 USERNAME 이 있었는데, 사용자 이름으로 등록해야함. 없앴다가 오류났음ㅋ
+
+ 
+
+# chmod 777 /tftp
+
+# service tftpd-hpa restart
   
   #### PetaLinux BSP Download
             PetaLinux Tool은 config명령에서 사용할 bsp를 포함하고 있지 않으므로, 
