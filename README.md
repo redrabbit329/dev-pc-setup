@@ -218,20 +218,127 @@ tftpd-hpa 를 사용하면 된다.
 ----------------------------------------------------
 ### 5.0. Common
             1. vitis-ai repository를 clone 한다.
-            
-                        >> $ git clone https://github.com/xilinx/vitis-ai
+                        
+               >> $ git clone https://github.com/xilinx/vitis-ai
                         
             2. Docker를 설치하고 group docker user에 linux user (=나)를 추가한다.
-               Ubuntu용 Docker Install Guide : https://docs.docker.com/install/linux/docker-ce/ubuntu/
                
-               Ubuntu Host에서 Docker를 설치하는 명령은 다음 순서대로 진행한다. (정확히 아래 링크를 참고했음)
+               Ubuntu Host에서 Docker를 설치하는 명령은 다음 순서대로 진행한다. (아래 링크를 참고했음)
                https://github.com/Xilinx/Vitis-AI/blob/master/doc/install_docker/README.md
                
-               >>
+               (2-1) Uninstall Older Docker Version.
+               >> $ sudo apt-get remove docker docker-engine docker.io containerd runc
+               
+               (2-2) Tool Docker Version for Ubuntu : https://docs.docker.com/install/linux/docker-ce/ubuntu/
+               >> $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"  
+               >> $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -  
+               >> $ sudo apt-get update && sudo apt install docker-ce docker-ce-cli containerd.io 
+               
+               (2-3) Runtiime Docker Version for Ubuntu (provided by nvidia) : 
+                        https://nvidia.github.io/nvidia-container-runtime/
+               >> $ curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
+               >> $ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+               >> $ curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
+               >> $ sudo apt-get update
+               >> $ sudo apt-get install nvidia-container-runtime
+               
+               (2-4) The edit the docker config to limit / allow users in docker group membership to run Docker containers
+               >> $ sudo systemctl edit docker
+               
+               [Service]
+               ExecStart=
+               ExecStart=/usr/bin/dockerd --group docker -H unix:///var/run/docker.sock --add-runtime=nvidia=/usr/bin/nvidia-container-runtime
+               
+               ---> Save That File and Exit (Type Enter)
+               
+               Then restart the InitD daemon and restart Docker
+               >> $ sudo systemctl daemon-reload
+               >> $ sudo systemctl restart docker
+               
+               (2-5) Ensure Your Linux User is in the Group Docker  : To create the "docker" group
+               >> $ sudo groupadd docker
+               
+               (2-6) Add your user to the "docker group"
+               >> $ sudo usermod -aG docker $USER
+               
+               (2-7) Logout and log back in so that your group membership is re-evaluated
+               >> $ newgrp docker
+               
+               (2-8) Verify that you can run "docker" commands without "sudo"
+               >> $ docker run hello-world
+
                
                      
-            3. Docker image를 내려받는다.
+            3. Docker image를 내려받는다. (It takes long time...)
+            
+               >> $ docker pull xilinx/vitis-ai:tools-1.0.0-cpu
+               >> $ docker pull xilinx/vitis-ai:runtime-1.0.0-cpu
+               
             4. XRT 2019.2를 install한다.
+               (4-1) clone xrt : XRT folder is generated.
+               >> $ git clone https://github.com/Xilinx/XRT.git
+               
+               (4-2) in XRT folder,
+               >> $ ./src/runtime_src/tools/scripts/srtdeps.sh
+               
+               (4-3) Build the runtime
+               >> $ cd build
+               >> $ ./build.sh
+               
+               (4-4) Build deb package on ubuntu
+               >> $ cd build/Release
+               >> $ make package
+               >> $ cd ../Debug
+               >> $ make package
+               >> $ sudo apt install --reinstall .xrt_202010.2.5.0_16.04-xrt.deb
+               
+               (*) if, occurred error! type follow command
+               >> $ sudo apt install --reinstall ./xrt_202010.2.5.0_16.04-xrt.deb --> ERROR
+               >> $ sudo apt install python-pyopencl
+               >> $ pip install --upgrade pip
+               Retry type package install 
+               >> $ sudo apt install --reinstall ./xrt_202010.2.5.0_16.04-xrt.deb --> NO ERROR
+               >> $ ./build.sh docs
+               
             5. Target Device의 platform을 내려받거나 생성(customizing)한다.
+               This case, install zcu102 base platform 
+
+            * Folder Tree "zcu102_base"
+            .
+            ├── hw
+            │   └── zcu102_base.xsa
+            ├── sw
+            │   ├── zcu102_base
+            │   │   ├── boot
+            │   │   │   ├── bl31.elf
+            │   │   │   ├── fsbl.elf
+            │   │   │   ├── generic.readme
+            │   │   │   ├── linux.bif
+            │   │   │   ├── pmufw.elf
+            │   │   │   └── u-boot.elf
+            │   │   ├── pre-built
+            │   │   │   └── BOOT.BIN
+            │   │   ├── qemu
+            │   │   │   ├── bl31.elf
+            │   │   │   ├── pmu_args.txt
+            │   │   │   ├── pmufw.elf
+            │   │   │   ├── qemu_args.txt
+            │   │   │   └── u-boot.elf
+            │   │   └── xrt
+            │   │       ├── image
+            │   │       │   ├── image.ub
+            │   │       │   ├── init.sh
+            │   │       │   └── platform_desc.txt
+            │   │       └── qemu
+            │   │           ├── bl31.elf
+            │   │           ├── pmu_args.txt
+            │   │           ├── pmufw.elf
+            │   │           ├── qemu_args.txt
+            │   │           └── u-boot.elf
+            │   └── zcu102_base.spfm
+            └── zcu102_base.xpfm
+
+
+
 ### 5.1. For MPSoC
 ### 5.2. For Alveo
