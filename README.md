@@ -4,6 +4,19 @@ Redrabbit's Development Environment Configuration
 Ubuntu 18.04 LTS : redrabbit-crossworks lenovor laptop computer
 =================================================================
 
+Utility : 
+(1) Slack Install Crash with dpkg-deb error
+
+https://linuxconfig.org/how-to-install-slack-on-ubuntu-18-04-bionic-beaver-linux
+
+https://askubuntu.com/questions/823452/problems-installing-slack-desktop
+
+>> Key : sudo apt-get remove slack && sudo dpkg -i slack-desktop-2.1.2-amd64.deb
+
+
+
+
+
 
 1. Install Ubuntu 18.04 LTS using booting usb
 ----------------------------------------------------
