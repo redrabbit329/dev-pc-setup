@@ -163,39 +163,25 @@ https://askubuntu.com/questions/823452/problems-installing-slack-desktop
 tftpd-hpa 를 사용하면 된다.
 
  
-
-# sudo apt-get install tftpd-hpa
-
- 
-
-설치가 정상적으로 됐는지 확인을 위해 아래처럼 할 수 있다.
-
- 
-
-# sudo service tftpd-hpa status
-
-# netstat -a | grep tftp
-
- 
-
-설정방법은 아래와 같다.
-
- 
-
-# mkdir /tftp
-# sudo cp /etc/default/tftpd-hpa /etc/default/tftpd-hpa.original
-# sudo vi /etc/default/tftpd-hpa
-   TFTP_DIRECTORY=”/tftp”
-   TFTP_OPTIONS=”–secure”
-   TFTP_ADDRESS=”:69″
-   
-   여기에 자동으로 생성되는 항목에 USERNAME 이 있었는데, 사용자 이름으로 등록해야함. 없앴다가 오류났음ㅋ
-
- 
-
-# chmod 777 /tftp
-
-# service tftpd-hpa restart
+            >> $ sudo apt-get install tftpd-hpa
+            
+            설치가 정상적으로 됐는지 확인을 위해 아래처럼 할 수 있다.
+            >> $ sudo service tftpd-hpa status
+            >> $ netstat -a | grep tftp
+            
+            설정방법은 아래와 같다.
+            >> $ mkdir /tftp
+            >> $ sudo cp /etc/default/tftpd-hpa /etc/default/tftpd-hpa.original
+            >> $ sudo vi /etc/default/tftpd-hpa
+            
+               TFTP_DIRECTORY=”/tftp”
+               TFTP_OPTIONS=”–secure”
+               TFTP_ADDRESS=”:69″
+            
+            여기에 자동으로 생성되는 항목에 USERNAME 이 있었는데, 사용자 이름으로 등록해야함. 없앴다가 오류났음ㅋ
+            >> $ chmod 777 /tftp
+            >> $ service tftpd-hpa restart
+  
   
   #### PetaLinux BSP Download
             PetaLinux Tool은 config명령에서 사용할 bsp를 포함하고 있지 않으므로, 
